@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:pokedex/src/models/especieDao.dart';
@@ -33,8 +34,14 @@ class _PokemonScreenState extends State<PokemonScreen>
   @override
   Widget build(BuildContext context) {
     pok = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-
+    play();
     return tabbar();
+  }
+
+  play() async {
+    AudioPlayer audioPlayer = AudioPlayer();
+    await audioPlayer.play(
+        'https://play.pokemonshowdown.com/audio/cries/${pok['name'].toString().toLowerCase()}.mp3');
   }
 
   Widget tabbar() {
@@ -44,19 +51,39 @@ class _PokemonScreenState extends State<PokemonScreen>
         preferredSize: Size.fromHeight(250),
         child: AppBar(
           backgroundColor: Colors.red,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                  pok['img'],
+          flexibleSpace: Stack(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      pok['img'],
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Container(
+                  alignment: Alignment.bottomLeft,
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.white,
+                    onPressed: () {
+                      play();
+                    },
+                    child: Icon(
+                      Icons.play_arrow,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(50),
-              bottomRight: Radius.circular(50),
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
             ),
           ),
           title: Text(pok['name']),

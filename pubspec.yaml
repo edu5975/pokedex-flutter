@@ -33,6 +33,7 @@ dependencies:
   flutter_staggered_animations: "^1.0.0"
   md2_tab_indicator: ^1.0.2
   fl_chart: ^0.36.0
+  audioplayers: ^0.18.3
 
 dev_dependencies:
   flutter_test:
